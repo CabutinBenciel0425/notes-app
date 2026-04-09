@@ -13,8 +13,6 @@ export function useNotes() {
   const context = useContext(NotesContext);
   const { dispatch, state } = context;
 
-  if (!context) throw new Error("Notes context was used outside the provider");
-
   function addNote({
     title = "Untitled",
     text,
