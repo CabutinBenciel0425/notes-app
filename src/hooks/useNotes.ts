@@ -35,21 +35,21 @@ export function useNotes() {
     return id;
   }
 
-  function deleteNote({ id }: { id: string }) {
+  function deleteNote(id: string) {
     dispatch({
       type: "DELETE_NOTE",
       id,
     });
   }
 
-  function archiveNote({ id }: { id: string }) {
+  function archiveNote(id: string) {
     dispatch({
       type: "ARCHIVE_NOTE",
       id,
     });
   }
 
-  function pinNote({ id }: { id: string }) {
+  function pinNote(id: string) {
     dispatch({
       type: "PIN_NOTE",
       id,

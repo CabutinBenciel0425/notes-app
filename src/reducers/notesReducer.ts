@@ -5,14 +5,18 @@ export function notesReducer(state: NotesState, action: NotesAction) {
   switch (action.type) {
     case "ADD_NOTE":
       return {
+        ...state,
         notes: [...state.notes, action.payload],
+        focusedNoteId: action.payload.id,
       };
     case "DELETE_NOTE":
       return {
+        ...state,
         notes: state.notes.filter((n) => n.id !== action.id),
       };
     case "ARCHIVE_NOTE":
       return {
+        ...state,
         notes: state.notes.map((n) =>
           n.id === action.id
             ? {
@@ -25,6 +29,7 @@ export function notesReducer(state: NotesState, action: NotesAction) {
 
     case "PIN_NOTE":
       return {
+        ...state,
         notes: state.notes.map((n) =>
           n.id === action.id
             ? {
@@ -37,6 +42,7 @@ export function notesReducer(state: NotesState, action: NotesAction) {
 
     case "UPDATE_NOTE":
       return {
+        ...state,
         notes: state.notes.map((n) =>
           n.id === action.payload.id
             ? {

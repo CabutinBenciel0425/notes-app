@@ -1,17 +1,20 @@
 import { MdOutlinePushPin, MdClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
+import { useNotes } from "../hooks/useNotes";
 
 type CardProps = {
   title?: string;
   text?: string;
   isFocused?: boolean;
+  id: string;
 };
 
-function Card({ title = "Untitled", text, isFocused = false }: CardProps) {
+function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { deleteNote } = useNotes();
 
   const handleCardClick = () => {
     if (!isEditing) {
@@ -90,7 +93,7 @@ function Card({ title = "Untitled", text, isFocused = false }: CardProps) {
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
-              console.log("delete");
+              deleteNote(id);
             }}
             className="text-accent hover:text-red-400 transition-colors duration-150 text-base cursor-pointer"
             aria-label="Delete note"

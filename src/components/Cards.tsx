@@ -12,6 +12,7 @@ function Cards() {
           title={note.title}
           text={note.text}
           isFocused={focusedNoteId === note.id}
+          id={note.id}
         />
       ))}
     </div>
