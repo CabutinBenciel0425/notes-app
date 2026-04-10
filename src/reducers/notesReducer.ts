@@ -21,6 +21,7 @@ export function notesReducer(state: NotesState, action: NotesAction) {
             ? {
                 ...n,
                 isArchived: !n.isArchived,
+                isPinned: false,
               }
             : n,
         ),
@@ -30,7 +31,7 @@ export function notesReducer(state: NotesState, action: NotesAction) {
       return {
         ...state,
         notes: state.notes.map((n) =>
-          n.id === action.id
+          n.id === action.id && n.isArchived === false
             ? {
                 ...n,
                 isPinned: !n.isPinned,

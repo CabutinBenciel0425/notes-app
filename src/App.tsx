@@ -9,9 +9,12 @@ export default function App() {
 
   return (
     <div className="flex h-screen w-full text-text-primary bg-background overflow-hidden">
-      <Sidebar setCurrentFilter={setCurrentFilter} />
+      <Sidebar
+        currentFilter={currentFilter}
+        setCurrentFilter={setCurrentFilter}
+      />
       <div className="flex flex-col flex-1 min-w-0">
-        <Header />
+        <Header setCurrentFilter={setCurrentFilter} />
         <MainContent currentFilter={currentFilter} />
       </div>
     </div>

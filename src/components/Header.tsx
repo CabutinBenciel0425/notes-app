@@ -1,7 +1,12 @@
 import { useNotes } from "../hooks/useNotes";
+import { PiNotePencil } from "react-icons/pi";
 import Button from "../ui/Button";
 
-function Header() {
+function Header({
+  setCurrentFilter,
+}: {
+  setCurrentFilter: (filter: string) => void;
+}) {
   const { addNote, setFocusedNoteId } = useNotes();
 
   return (
@@ -12,13 +17,6 @@ function Header() {
 
       <div className="absolute right-6 flex gap-2">
         <Button
-          onClick={() => console.log("Clicked Archive")}
-          variant="primary"
-          className="px-4 py-2 text-sm bg-transparent border border-border text-text-secondary hover:text-text-primary hover:border-accent transition-all duration-200 rounded"
-        >
-          Archive
-        </Button>
-        <Button
           onClick={() => {
             const newId = addNote({
               title: "",
@@ -27,10 +25,14 @@ function Header() {
               isArchived: false,
             });
             setFocusedNoteId(newId);
+            setCurrentFilter("all");
           }}
           variant="primary"
-          className="px-4 py-2 text-sm bg-transparent border border-border text-text-secondary hover:text-text-primary hover:border-accent transition-all duration-200 rounded"
+          className="px-4 py-2 text-sm bg-transparent border border-border text-text-secondary hover:text-text-primary hover:border-accent transition-all duration-200 rounded flex flex-row gap-2"
         >
+          <span className="text-2xl">
+            <PiNotePencil />
+          </span>
           Add Note
         </Button>
       </div>

@@ -76,6 +76,10 @@ export function useNotes() {
     n.title.startsWith("Untitled"),
   ).length;
 
+  const allNotes = state.notes
+    .filter((n) => !n.isArchived)
+    .filter((note) => !note.isPinned);
+
   const untitledNotes = state.notes.filter((n) =>
     n.title.startsWith("Untitled"),
   );
@@ -94,6 +98,7 @@ export function useNotes() {
     focusedNoteId,
     setFocusedNoteId,
     countUntitled,
+    allNotes,
     untitledNotes,
     pinnedNotes,
     archivedNotes,

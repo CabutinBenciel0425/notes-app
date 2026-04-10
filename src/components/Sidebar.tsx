@@ -17,9 +17,11 @@ const navItems = [
 ];
 
 function Sidebar({
+  currentFilter,
   setCurrentFilter,
 }: {
   setCurrentFilter: (filter: string) => void;
+  currentFilter: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -93,12 +95,16 @@ function Sidebar({
           <li key={label} className="w-full">
             <button
               className={`
-                w-full flex flex-row items-center gap-3
-                border border-transparent hover:border-border
-                transition-all duration-200 ease rounded p-3
-                text-text-secondary hover:text-text-primary cursor-pointer
-                ${isOpen ? "justify-start" : "justify-center"}
-              `}
+    w-full flex flex-row items-center gap-3
+    border transition-all duration-200 ease rounded p-3
+    text-text-secondary hover:text-text-primary cursor-pointer
+    ${isOpen ? "justify-start" : "justify-center"}
+    ${
+      currentFilter === filter
+        ? "border-border"
+        : "border-transparent hover:border-border"
+    }
+  `}
               onClick={() => setCurrentFilter(filter)}
             >
               <span className="text-xl shrink-0 text-accent">{icon}</span>

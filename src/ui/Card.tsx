@@ -1,4 +1,7 @@
-import { MdOutlinePushPin, MdClose } from "react-icons/md";
+import { MdClose, MdOutlineArchive } from "react-icons/md";
+import { BsPin } from "react-icons/bs";
+import { BsPinAngle } from "react-icons/bs";
+
 import { useEffect, useRef, useState } from "react";
 import { useNotes } from "../hooks/useNotes";
 
@@ -7,15 +10,30 @@ type CardProps = {
   text?: string;
   isFocused?: boolean;
   id: string;
+  isArchived: boolean;
+  isPinned: boolean;
 };
 
-function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
+function Card({
+  title = "Untitled",
+  text,
+  isFocused = false,
+  id,
+  isArchived,
+  isPinned,
+}: CardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { deleteNote, updateNote, setFocusedNoteId, countUntitled } =
-    useNotes();
+  const {
+    deleteNote,
+    updateNote,
+    archiveNote,
+    pinNote,
+    setFocusedNoteId,
+    countUntitled,
+  } = useNotes();
 
   const handleCardClick = () => {
     if (!isEditing) {
@@ -99,17 +117,40 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
           {title}
         </h2>
         <div className="flex items-center gap-2 shrink-0">
+          {!isArchived && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                pinNote(id);
+              }}
+              className={`transition-colors duration-150 text-base cursor-pointer 
+    ${
+      isPinned
+        ? "text-yellow-400 hover:text-yellow-300"
+        : "text-accent hover:text-green-500"
+    }`}
+              aria-label="Pin note"
+            >
+              {!isPinned ? <BsPin /> : <BsPinAngle />}
+            </button>
+          )}
+
           <button
-            onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
-              console.log("pin");
+              archiveNote(id);
             }}
-            className="text-accent hover:text-text-primary transition-colors duration-150 text-base cursor-pointer"
-            aria-label="Pin note"
+            className={`transition-colors duration-150 text-base cursor-pointer 
+    ${
+      isArchived
+        ? "text-blue-400 hover:text-blue-300"
+        : "text-accent hover:text-blue-400"
+    }`}
+            aria-label="Archive note"
           >
-            <MdOutlinePushPin />
+            <MdOutlineArchive />
           </button>
+
           <button
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {

@@ -2,17 +2,21 @@ import { useNotes } from "../hooks/useNotes";
 import Card from "../ui/Card";
 
 function Cards({ currentFilter }: { currentFilter: string }) {
-  const { state, focusedNoteId, untitledNotes, pinnedNotes, archivedNotes } =
+  const { focusedNoteId, untitledNotes, pinnedNotes, archivedNotes, allNotes } =
     useNotes();
   console.log(currentFilter);
 
-  let renderNotes = state.notes;
+  let renderNotes = allNotes;
 
-  if (currentFilter === "untitled") renderNotes = untitledNotes;
-
-  if (currentFilter === "pinned") renderNotes = pinnedNotes;
-
-  if (currentFilter === "archived") renderNotes = archivedNotes;
+  if (currentFilter === "all") {
+    renderNotes = [...pinnedNotes, ...allNotes];
+  } else if (currentFilter === "untitled") {
+    renderNotes = untitledNotes;
+  } else if (currentFilter === "pinned") {
+    renderNotes = pinnedNotes;
+  } else if (currentFilter === "archived") {
+    renderNotes = archivedNotes;
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-10 md:grid-cols-3 lg:grid-cols-4">
@@ -32,6 +36,8 @@ function Cards({ currentFilter }: { currentFilter: string }) {
             text={note.text}
             isFocused={focusedNoteId === note.id}
             id={note.id}
+            isArchived={note.isArchived}
+            isPinned={note.isPinned}
           />
         ))
       )}
