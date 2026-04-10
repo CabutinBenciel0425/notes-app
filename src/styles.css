@@ -21,7 +21,7 @@
   }
 
   body {
-    background-color: #222f3e;
+    background-color: #121212;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,4 +37,12 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+@theme {
+  --color-background: #121212;
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #b0b0b0;
+  --color-border: #444444;
+  --color-accent: #888888;
 }

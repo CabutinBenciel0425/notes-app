@@ -11,18 +11,19 @@ type AddNotesType = {
 
 export function useNotes() {
   const context = useContext(NotesContext);
-  const { dispatch, state } = context;
+  const { dispatch, state, focusedNoteId, setFocusedNoteId } = context;
 
   function addNote({
-    title = "Untitled",
-    text,
+    title = "",
+    text = "",
     isPinned = false,
     isArchived = false,
   }: AddNotesType) {
+    const id = createId();
     dispatch({
       type: "ADD_NOTE",
       payload: {
-        id: createId(),
+        id,
         date_created: createDateNow(),
         last_updated: createDateNow(),
         title,
@@ -31,6 +32,7 @@ export function useNotes() {
         isArchived,
       },
     });
+    return id;
   }
 
   function deleteNote({ id }: { id: string }) {
@@ -54,5 +56,13 @@ export function useNotes() {
     });
   }
 
-  return { state, addNote, deleteNote, archiveNote, pinNote };
+  return {
+    state,
+    addNote,
+    deleteNote,
+    archiveNote,
+    pinNote,
+    focusedNoteId,
+    setFocusedNoteId,
+  };
 }

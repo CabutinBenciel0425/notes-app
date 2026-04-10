@@ -48,5 +48,13 @@ export function notesReducer(state: NotesState, action: NotesAction) {
             : n,
         ),
       };
+
+    case "SET_FOCUSED_NOTE":
+      return {
+        ...state,
+        focusedNoteId: action.id,
+      };
+    default:
+      return state;
   }
 }

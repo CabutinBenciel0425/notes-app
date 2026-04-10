@@ -10,6 +10,7 @@ export type NotesType = {
 
 export type NotesState = {
   notes: NotesType[];
+  focusedNoteId?: string | null;
 };
 
 export type NotesAction =
@@ -17,4 +18,5 @@ export type NotesAction =
   | { type: "DELETE_NOTE"; id: string }
   | { type: "ARCHIVE_NOTE"; id: string }
   | { type: "PIN_NOTE"; id: string }
-  | { type: "UPDATE_NOTE"; payload: NotesType };
+  | { type: "UPDATE_NOTE"; payload: NotesType }
+  | { type: "SET_FOCUSED_NOTE"; id: string | null };
