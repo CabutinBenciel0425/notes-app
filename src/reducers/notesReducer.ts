@@ -7,7 +7,6 @@ export function notesReducer(state: NotesState, action: NotesAction) {
       return {
         ...state,
         notes: [...state.notes, action.payload],
-        focusedNoteId: action.payload.id,
       };
     case "DELETE_NOTE":
       return {

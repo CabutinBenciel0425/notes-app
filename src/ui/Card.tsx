@@ -14,7 +14,7 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { deleteNote } = useNotes();
+  const { deleteNote, updateNote, state, setFocusedNoteId } = useNotes();
 
   const handleCardClick = () => {
     if (!isEditing) {
@@ -26,6 +26,21 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
   const handleBlur = (e: React.FocusEvent) => {
     if (!cardRef.current?.contains(e.relatedTarget as Node)) {
       setIsEditing(false);
+
+      setFocusedNoteId(null);
+
+      const newTitle = titleRef.current?.innerText.trim() || "";
+      const newText = bodyRef.current?.innerText.trim() || "";
+
+      let finalTitle = newTitle;
+      if (!finalTitle) {
+        const untitledCount = state.notes.filter((n) =>
+          n.title.startsWith("Untitled"),
+        ).length;
+        finalTitle = `Untitled ${untitledCount + 1}`;
+      }
+
+      updateNote(id, finalTitle, newText);
     }
   };
 

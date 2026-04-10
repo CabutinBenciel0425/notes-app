@@ -56,10 +56,23 @@ export function useNotes() {
     });
   }
 
+  function updateNote(id: string, title: string, text: string) {
+    dispatch({
+      type: "UPDATE_NOTE",
+      payload: {
+        id,
+        title,
+        text,
+        last_updated: createDateNow(),
+      },
+    });
+  }
+
   return {
     state,
     addNote,
     deleteNote,
+    updateNote,
     archiveNote,
     pinNote,
     focusedNoteId,
