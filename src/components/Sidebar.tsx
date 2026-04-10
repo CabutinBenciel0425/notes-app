@@ -1,15 +1,26 @@
 import { FaRegNoteSticky } from "react-icons/fa6";
 import { MdOutlinePushPin, MdOutlineArchive } from "react-icons/md";
+import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import "../styles.css";
 import { useState, useEffect } from "react";
 
 const navItems = [
-  { icon: <FaRegNoteSticky />, label: "Untitled Notes" },
-  { icon: <MdOutlinePushPin />, label: "Pinned Notes" },
-  { icon: <MdOutlineArchive />, label: "Archived Notes", small: true },
+  { icon: <HiOutlineSquare3Stack3D />, label: "All Notes", filter: "all" },
+  { icon: <FaRegNoteSticky />, label: "Untitled Notes", filter: "untitled" },
+  { icon: <MdOutlinePushPin />, label: "Pinned Notes", filter: "pinned" },
+  {
+    icon: <MdOutlineArchive />,
+    label: "Archived Notes",
+    small: true,
+    filter: "archived",
+  },
 ];
 
-function Sidebar() {
+function Sidebar({
+  setCurrentFilter,
+}: {
+  setCurrentFilter: (filter: string) => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -78,7 +89,7 @@ function Sidebar() {
       </div>
 
       <ul className="flex flex-col gap-1 flex-1 px-1 py-4">
-        {navItems.map(({ icon, label, small }) => (
+        {navItems.map(({ icon, label, small, filter }) => (
           <li key={label} className="w-full">
             <button
               className={`
@@ -88,6 +99,7 @@ function Sidebar() {
                 text-text-secondary hover:text-text-primary cursor-pointer
                 ${isOpen ? "justify-start" : "justify-center"}
               `}
+              onClick={() => setCurrentFilter(filter)}
             >
               <span className="text-xl shrink-0 text-accent">{icon}</span>
               {isOpen && (

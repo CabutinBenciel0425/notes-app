@@ -14,7 +14,8 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { deleteNote, updateNote, state, setFocusedNoteId } = useNotes();
+  const { deleteNote, updateNote, setFocusedNoteId, countUntitled } =
+    useNotes();
 
   const handleCardClick = () => {
     if (!isEditing) {
@@ -34,10 +35,7 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
 
       let finalTitle = newTitle;
       if (!finalTitle) {
-        const untitledCount = state.notes.filter((n) =>
-          n.title.startsWith("Untitled"),
-        ).length;
-        finalTitle = `Untitled ${untitledCount + 1}`;
+        finalTitle = `Untitled ${countUntitled + 1}`;
       }
 
       updateNote(id, finalTitle, newText);
@@ -53,10 +51,18 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
 
   useEffect(() => {
     if (isFocused && !isEditing) {
-      setIsEditing(true);
-      setTimeout(() => titleRef.current?.focus(), 0);
+      setTimeout(() => {
+        setIsEditing(true);
+        titleRef.current?.focus();
+      }, 0);
     }
   }, [isFocused, isEditing]);
+
+  useEffect(() => {
+    if (isFocused && cardRef.current) {
+      cardRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isFocused]);
 
   return (
     <div
@@ -65,7 +71,7 @@ function Card({ title = "Untitled", text, isFocused = false, id }: CardProps) {
       onBlur={handleBlur}
       className={`
         flex flex-col gap-3 p-4 border rounded-lg bg-background
-        transition-all duration-200 group 
+        transition-all duration-200 ease group 
         ${
           isEditing
             ? "border-accent ring-1 ring-accent cursor-text"

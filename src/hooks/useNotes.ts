@@ -57,9 +57,13 @@ export function useNotes() {
   }
 
   function updateNote(id: string, title: string, text: string) {
+    const existing = state.notes.find((n) => n.id === id);
+    if (!existing) return;
+
     dispatch({
       type: "UPDATE_NOTE",
       payload: {
+        ...existing,
         id,
         title,
         text,
@@ -67,6 +71,18 @@ export function useNotes() {
       },
     });
   }
+
+  const countUntitled = state.notes.filter((n) =>
+    n.title.startsWith("Untitled"),
+  ).length;
+
+  const untitledNotes = state.notes.filter((n) =>
+    n.title.startsWith("Untitled"),
+  );
+
+  const pinnedNotes = state.notes.filter((n) => n.isPinned);
+
+  const archivedNotes = state.notes.filter((n) => n.isArchived);
 
   return {
     state,
@@ -77,5 +93,9 @@ export function useNotes() {
     pinNote,
     focusedNoteId,
     setFocusedNoteId,
+    countUntitled,
+    untitledNotes,
+    pinnedNotes,
+    archivedNotes,
   };
 }

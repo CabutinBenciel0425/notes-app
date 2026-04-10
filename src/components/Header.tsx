@@ -5,7 +5,7 @@ function Header() {
   const { addNote, setFocusedNoteId } = useNotes();
 
   return (
-    <header className="relative flex items-center justify-center px-6 py-4 border-b border-border shrink-0">
+    <header className="relative flex items-center justify-center px-6 py-4 border-b border-border shrink-0 top-0 z-10 bg-background">
       <h1 className="text-xl font-bold text-text-primary tracking-wide">
         Notes App
       </h1>
